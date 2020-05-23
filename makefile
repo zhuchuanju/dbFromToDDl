@@ -8,6 +8,7 @@ RM = rm -rf
 SRCS = $(wildcard ./*.cpp)
 MAIN_OBJ = $(patsubst %.cpp, %.o, $(SRCS))
 OBJS = $(wildcard ./objs/*.o)
+OBJS += $(MAIN_OBJ)
 
 HEADER_PATH = -I/usr/include/ -I./configData/ -I./readJosnConf/
 LIB_PATH = -L/usr/lib64/
@@ -16,8 +17,8 @@ LIBS = -ljsoncpp -lpthread
 
 TARGET = testCode
 
-$(TARGET) : $(MAIN_OBJ)
-	$(CXX) $^ -o $@ $(OBJS) $(LIB_PATH) $(LIBS)
+$(TARGET):$(OBJS)
+	$(CXX) $^ -o $@ $(LIB_PATH) $(LIBS)
 
 $(MAIN_OBJ):%.o : %.cpp
 	$(CXX) $(CFLAGS) $(HEADER_PATH) $< -o $@ 
