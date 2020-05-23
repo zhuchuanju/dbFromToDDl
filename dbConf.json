@@ -1,0 +1,21 @@
+{
+	"sqlInfo": "oracle",
+	"userInfo":{
+		"user": "zcj",
+		"passwd": "123456",
+		"dsn": "10.111.24.11:1521/ora11g",
+		"dbName": "defalut"
+	},
+	"mapInfo":[
+		{
+			"srcColType": "int",
+			"dstColType": "varchar",
+			"dstDatSize": "(30)"
+		},
+		{
+			"srcColType": "decimal",
+			"dstColType": "number",
+			"dstDatSize": "(10,4)"
+		}
+	]
+}

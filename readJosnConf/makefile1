@@ -1,0 +1,33 @@
+CROSS =
+CC = $(CROSS)gcc 
+CXX = $(CROSS)g++ --std=c++11
+DEBUG = -g -O2
+CFLAGS = $(DEBUG) -Wall -c
+FPIC = -fpic
+SHARE = -shared
+RM = rm -rf 
+
+HEADER_PATH = -I/usr/include/ -I../configData
+LIB_PATH = -L/usr/lib64/
+
+SRCS = $(wildcard ./*.cpp)
+OBJS = $(patsubst %.cpp, %.o, $(SRCS))
+DEPS = $(patsubst %.cpp, %.d, $(SRCS))
+
+#all:
+#	echo $(DEP)
+	
+OBJS_DIR = ../objs/
+OBJS_DEL = $(subst ./, $(OBJS_DIR), $(OBJS))
+DEPS_DEL = $(subst ./, $(OBJS_DIR), $(DEPS))
+
+$(OBJS):%.o : %.cpp
+	$(CXX) $(CFLAGS) $(HEADER_PATH) $< -o $(OBJS_DIR)$@
+
+$(DEPS):%.d : %.cpp
+	$(CXX) -M $(CFLAGS) $(HEADER_PATH) $< > $(OBJS_DIR)$@
+	
+-include $(DEPS)
+
+clean:
+	$(RM) $(OBJS_DEL) $(DEPS_DEL)
