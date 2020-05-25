@@ -1,5 +1,5 @@
-#ifndef H_OTL_2_ORACLE_H
-#define H_OTL_2_ORACLE_H
+#ifndef H_OTL_2_MYSQL_H
+#define H_OTL_2_MYSQL_H
 
 #include <iostream>
 #include <string>
@@ -8,16 +8,16 @@
 #include <string.h>
 #include "dbconfinfo.h"
 
-#define OTL_ORA11G_R2
 //#define OTL_STL
+#define OTL_ODBC_UNIX
+#define OTL_ODBC_SELECT_STM_EXECUTE_BEFORE_DESCRIBE
 
 #include "otlv4.h"
-
-class Otl2Oracle
+class Otl2Mysql
 {
 public:
-    Otl2Oracle(const SUserInfo& srcUser);
-    ~Otl2Oracle();
+    Otl2Mysql(const SUserInfo& srcUser);
+    ~Otl2Mysql();
 
 public:
     // 登录
@@ -48,4 +48,4 @@ private:
     otl_connect m_db;               // connect object
 };
 
-#endif // OTL2ORACLE_H
+#endif // OTL2MYSQL_H

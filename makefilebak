@@ -1,0 +1,40 @@
+CROSS =
+CC = $(CROSS)gcc 
+CXX = $(CROSS)g++ --std=c++11
+DEBUG = -g -O2
+CFLAGS = $(DEBUG) -Wall -c
+RM = rm -rf 
+
+SRCS = $(wildcard ./*.cpp)
+SRCS += $(wildcard ./readJosnConf/*.cpp)
+#SRCS += $(wildcard ./db2/*.cpp)
+SRCS += $(wildcard ./oracle/*.cpp)
+OBJS = $(patsubst %.cpp, %.o, $(SRCS))
+#OBJS = $(wildcard ./objs/*.o)
+#OBJS += $(MAIN_OBJ)
+
+HEADER_PATH = -I/usr/include/ -I./configData/ -I./readJosnConf/ \
+			  -I/usr/local/oracle/instantclient_12_2/sdk/include/ -I./oracle/ \
+			  #-I/home/db2inst1/sqllib/include/ -I./db2 \
+			   
+			  
+LIB_PATH = -L/usr/lib64/ \
+		   -L/usr/local/oracle/instantclient_12_2/ \
+		   #-L/home/db2inst1/sqllib/lib/ \
+		   
+
+LIBS = -ljsoncpp -lpthread \
+	   -lsqlplus -lclntsh \
+	   #-ldb2 \
+	   
+
+TARGET = testCode
+
+$(TARGET):$(OBJS)
+	$(CXX) $^ -o $@ $(LIB_PATH) $(LIBS)
+
+$(OBJS):%.o : %.cpp
+	$(CXX) $(CFLAGS) $(HEADER_PATH) $< -o $@ 
+
+clean:
+	$(RM) $(TARGET) $(OBJS)

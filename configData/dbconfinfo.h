@@ -6,6 +6,13 @@
 #include <string>
 #include <algorithm>
 
+//#define OTL_ORA11G_R2
+
+//#define OTL_ODBC_UNIX
+//#define OTL_ODBC_SELECT_STM_EXECUTE_BEFORE_DESCRIBE
+
+//#include "otlv4.h"
+
 using namespace std;
 
 struct SMapInfo

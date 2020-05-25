@@ -3,9 +3,8 @@ CC = $(CROSS)gcc
 CXX = $(CROSS)g++ --std=c++11
 DEBUG = -g -O2
 CFLAGS = $(DEBUG) -Wall -c
+OFLAGS = $(DEBUG) -Wall -o
 RM = rm -rf 
-
-
 
 SRCS_JSON = $(wildcard ./readJosnConf/*.cpp)
 OBJS_JSON = $(patsubst %.cpp, %.o, $(SRCS_JSON))
@@ -23,39 +22,38 @@ SRCS_ORACLE = $(wildcard ./oracle/*.cpp)
 OBJS_ORACLE = $(patsubst %.cpp, %.o, $(SRCS_ORACLE))
 HEADER_PATH_ORACLE = -I./configData/ -I/usr/local/oracle/instantclient_12_2/sdk/include -I./oracle/ 
 LIB_PATH_ORACLE = -L/usr/local/oracle/instantclient_12_2/
-LIBS_ORACLE = -lsqlplus -lclntsh -lpthread
+LIBS_ORACLE = -lsqlplus -lclntsh -lpthread 
 
-HEADER_PATH = -I/usr/include/ -I./configData/ -I./readJosnConf/ \
-			  -I/home/db2inst1/sqllib/include/ -I./db \
-			  -I/usr/local/oracle/instantclient_12_2/sdk/include 
-			  
-LIB_PATH += $(LIBS_PATH_JSON)
-LIB_PATH += $(LIB_PATH_DB2) 
-LIB_PATH += $(LIB_PATH_ORACLE)  
-#-L/usr/lib64/ \
-#		   -L/home/db2inst1/sqllib/lib/ \
-#		   -L/usr/local/oracle/instantclient_12_2
-
-LIBS = -ljsoncpp -lpthread \
-	   -ldb2 \
-	   -lsqlplus -lclntsh
+SRCS_MYSQL = $(wildcard ./mysql/*.cpp)
+OBJS_MYSQL = $(patsubst %.cpp, %.o, $(SRCS_MYSQL))
+HEADER_PATH_MYSQL = -I./configData/ -I./mysql/ 
+LIB_PATH_MYSQL = -L/usr/lib64/
+LIBS_MYSQL = -lodbc -lpthread 
 
 TARGET = testCode
 SRCS_MAIN = $(wildcard ./*.cpp)
 OBJS_MAIN = $(patsubst %.cpp, %.o, $(SRCS_MAIN))
-#OBJS_MAIN += $(OBJS_JSON)
-#OBJS_MAIN += $(OBJS_DB2)
-#OBJS_MAIN += $(OBJS_ORACLE)
-HEADER_PATH_MAIN = -I./configData/ -I./readJosnConf/ -I./db2/ -I./oracle/ -I/usr/local/oracle/instantclient_12_2/sdk/include
 
-#all:
-	#echo $(OBJS_MAIN)
-	
+HEADER_PATH_MAIN = -I./configData/ 
+HEADER_PATH_MAIN += -I./readJosnConf/ 
+HEADER_PATH_MAIN += -I./db2/ -I/home/db2inst1/sqllib/include/
+#HEADER_PATH_MAIN += -I./oracle/ 
+#HEADER_PATH_MAIN += -I./mysql/ 
 
-$(TARGET):$(OBJS_JSON) $(OBJS_DB2) $(OBJS_ORACLE) $(OBJS_MAIN)
-	$(CXX) $(CFLAGS) $^ -o $@ $(LIB_PATH) $(LIBS)
-#all: $(OBJS_JSON) $(OBJS_DB2) $(OBJS_ORACLE) $(OBJS_MAIN)
-#$(OBJS_ORACLE) 
+OBJS_ALL = $(OBJS_MAIN)
+OBJS_ALL += $(OBJS_JSON) 
+OBJS_ALL += $(OBJS_DB2) 
+#OBJS_ALL += $(OBJS_ORACLE)
+#OBJS_ALL += $(OBJS_MYSQL) 
+
+
+LIBS_ALL = $(LIBS_PATH_JSON) $(LIBS_JSON)
+LIBS_ALL += $(LIB_PATH_DB2) $(LIBS_DB2)
+#LIBS_ALL += $(LIB_PATH_ORACLE) $(LIBS_ORACLE)
+#LIBS_ALL += $(LIB_PATH_MYSQL) $(LIBS_MYSQL)
+
+$(TARGET):$(OBJS_ALL)
+	$(CXX) $(OFLAGS) $@ $^ $(LIBS_ALL)
 
 $(OBJS_JSON):%.o : %.cpp
 	$(CXX) $(CFLAGS) $(HEADERS_PATH_JSON) $< -o $@ 
@@ -65,11 +63,12 @@ $(OBJS_DB2):%.o : %.cpp
 	
 $(OBJS_ORACLE):%.o : %.cpp
 	$(CXX) $(CFLAGS) $(HEADER_PATH_ORACLE) $< -o $@ 
+
+$(OBJS_MYSQL):%.o : %.cpp
+	$(CXX) $(CFLAGS) $(HEADER_PATH_MYSQL) $< -o $@ 
 	
 $(OBJS_MAIN):%.o : %.cpp
 	$(CXX) $(CFLAGS) $(HEADER_PATH_MAIN) $< -o $@ 
 
 clean:
-	$(RM) $(TARGET) $(OBJS_JSON) $(OBJS_DB2) $(OBJS_ORACLE) $(OBJS_MAIN) 
-#$(OBJS_DB2) $(OBJS_ORACLE)
-#$(OBJS_ORACLE) $(OBJS_MAIN)
+	$(RM) $(TARGET) $(OBJS_ALL) 
