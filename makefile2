@@ -5,10 +5,10 @@ DEBUG = -g -O2
 CFLAGS = $(DEBUG) -Wall -c
 RM = rm -rf 
 
-SRCS = $(wildcard ./*/*.cpp ./*.cpp)
-OBJS = $(patsubst %.cpp, %.o, $(SRCS))
-#OBJS = $(wildcard ./objs/*.o)
-#OBJS += $(MAIN_OBJ)
+SRCS = $(wildcard ./*.cpp)
+MAIN_OBJ = $(patsubst %.cpp, %.o, $(SRCS))
+OBJS = $(wildcard ./objs/*.o)
+OBJS += $(MAIN_OBJ)
 
 HEADER_PATH = -I/usr/include/ -I./configData/ -I./readJosnConf/ \
 			  -I/home/db2inst1/sqllib/include/ -I./db \
@@ -24,8 +24,8 @@ TARGET = testCode
 $(TARGET):$(OBJS)
 	$(CXX) $^ -o $@ $(LIB_PATH) $(LIBS)
 
-$(OBJS):%.o : %.cpp
+$(MAIN_OBJ):%.o : %.cpp
 	$(CXX) $(CFLAGS) $(HEADER_PATH) $< -o $@ 
 
 clean:
-	$(RM) $(TARGET) $(OBJS)
+	$(RM) $(TARGET)

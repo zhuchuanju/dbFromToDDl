@@ -7,9 +7,9 @@ FPIC = -fpic
 SHARE = -shared
 RM = rm -rf
 
-HEADER_PATH = -I/usr/include/ -I../configData -I./
-LIB_PATH = -L/usr/lib64/
-LIBS = -ljsoncpp -lpthread
+HEADER_PATH = -I/home/db2inst1/sqllib/include/ -I./
+LIB_PATH = -L/home/db2inst1/sqllib/lib/
+LIBS = -ldb2 -lpthread
 
 OBJS_DIR = ../objs/
 

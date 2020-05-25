@@ -7,9 +7,7 @@ FPIC = -fpic
 SHARE = -shared
 RM = rm -rf
 
-HEADER_PATH = -I/usr/include/ -I../configData -I./
-LIB_PATH = -L/usr/lib64/
-LIBS = -ljsoncpp -lpthread
+HEADER_PATH = -I./
 
 OBJS_DIR = ../objs/
 
@@ -21,7 +19,7 @@ all: $(OBJS)
 
 # %.o %.cpp 别乱改
 $(OBJS):%.o:%.cpp
-	$(CXX) $(CFLAGS) $(HEADER_PATH) $< -o $(OBJS_DIR)$@  $(LIB_PATH) $(LIBS)
+	$(CXX) $(CFLAGS) $(HEADER_PATH) $< -o $(OBJS_DIR)$@
 	
 clean:
 	$(RM) $(OBJS_PATH_ALL)
