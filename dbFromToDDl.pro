@@ -7,6 +7,5 @@ SOURCES += main.cpp
 
 include (./configData/configData.pri)
 include (./readJosnConf/readJosnConf.pri)
-include (./transfromData/transfromData.pri)
-include (./toOracleDDL/toOracleDDL.pri)
-include (./db/db.pri)
+include (./db2/db2.pri)
+include (./oracle/oracle.pri)

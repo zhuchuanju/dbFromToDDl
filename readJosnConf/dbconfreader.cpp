@@ -43,7 +43,7 @@ bool DbConfReader::readUserInfo(const Json::Value &value)
     m_sqlInfo.userInfo.user = value[STR_DB_CONF_USER_INFO][STR_DB_CONF_USER].asString();
     m_sqlInfo.userInfo.passwd = value[STR_DB_CONF_USER_INFO][STR_DB_CONF_PASSWD].asString();
     m_sqlInfo.userInfo.dsn = value[STR_DB_CONF_USER_INFO][STR_DB_CONF_DSN].asString();
-    m_sqlInfo.userInfo.dbName = value[STR_DB_CONF_USER_INFO][STR_DB_CONF_DBNAME].asString();
+    m_sqlInfo.userInfo.sqlDbName = value[STR_DB_CONF_USER_INFO][STR_DB_CONF_DBNAME].asString();
 
     return true;
 }

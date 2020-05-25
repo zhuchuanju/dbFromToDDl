@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <algorithm>
 
 using namespace std;
 
@@ -71,8 +72,8 @@ struct SUserInfo
         dsn = strDsn;
         sqlDbName = "";
 
-        std::transform(user.begin(), user.end(), user.begin(), ::toupper);
-        std::transform(dsn.begin(), dsn.end(), dsn.begin(), ::toupper);
+        transform(user.begin(), user.end(), user.begin(), ::toupper);
+        transform(dsn.begin(), dsn.end(), dsn.begin(), ::toupper);
     }
 
     SUserInfo(const string& strUser, const string& strPasswd, const string& strDsn, const string& dbName)
